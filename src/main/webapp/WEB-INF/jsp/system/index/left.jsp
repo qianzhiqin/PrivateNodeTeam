@@ -11,7 +11,7 @@
 			.getAttribute("powerList");
 %>
 <!-- 本页面涉及的js函数，都在head.jsp页面中     -->
-<div id="sidebar">
+<div id="sidebar" class="">
 	<div id="sidebar-shortcuts">
 
 		<div>
@@ -33,11 +33,11 @@
 
 		</div>
 
-		<div id="sidebar-shortcuts-mini">
-			<span class="btn btn-success"></span> <span class="btn btn-info"></span>
+		<%--<div id="sidebar-shortcuts-mini">--%>
+			<%--<span class="btn btn-success"></span> <span class="btn btn-info"></span>--%>
 
-			<span class="btn btn-warning"></span> <span class="btn btn-danger"></span>
-		</div>
+			<%--<span class="btn btn-warning"></span> <span class="btn btn-danger"></span>--%>
+		<%--</div>--%>
 
 	</div>
 	<!-- #sidebar-shortcuts -->
@@ -63,6 +63,7 @@
 					</span>
 					<b class="arrow icon-angle-down"></b>
 			</a>
+
 			<%--<ul class="submenu" style="display: none;">
 				<li id="z7">
 					<a style="cursor:pointer;" target="mainFrame"
@@ -72,6 +73,19 @@
 					</a>
 					</li>
 			</ul>--%>
+		</li>
+		<li class="active" >
+			<a onclick="javascript:void(0);"
+			   target="mainFrame" onmouseover="this.style.backgroundColor='#7EBAE0'"
+			   onmouseout="this.style.backgroundColor='#DBEAF9'"
+			   style="background: #DBEAF9">
+				<i class="icon-dashboard"></i>
+				<span
+						onmouseover="this.style.backgroundColor='#7EBAE0'"
+						onmouseout="this.style.backgroundColor='#DBEAF9'"> 库存管理
+					</span>
+				<b class="arrow icon-angle-down"></b>
+			</a>
 		</li>
 	</ul>
 	<!--/.nav-list-->

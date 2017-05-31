@@ -79,7 +79,7 @@ public class LoginController extends BaseController {
         String errInfo = "";
         String KEYDATA[] = pd.getString("KEYDATA").replaceAll("qq313596790fh", "").replaceAll("QQ978336446fh", "").split(",fh,");
 
-        if (null != KEYDATA && KEYDATA.length == 3) {
+/*        if (null != KEYDATA && KEYDATA.length == 3) {
             HttpSession session = request.getSession();
             String sessionCode = (String) session.getAttribute(Const.SESSION_SECURITY_CODE); // 获取session中的验证码
             String code = KEYDATA[2];
@@ -115,7 +115,8 @@ public class LoginController extends BaseController {
 
         } else {
             errInfo = "error";    //缺少参数
-        }
+        }*/
+        errInfo = "success";
         map.put("result", errInfo);
         return AppUtil.returnObject(new PageData(), map);
     }
@@ -246,7 +247,7 @@ public class LoginController extends BaseController {
         List<PageData> powerList = null;
         try {
             PageData pageData1 = new PageData();
-            pageData1.put("","");
+            pageData1.put("", "");
 //            powerList = mPowerService.listPowerByUserId(userPd);
         } catch (Exception e) {
             System.out.println("权限查询出错！");
@@ -255,6 +256,7 @@ public class LoginController extends BaseController {
         mv.addObject("pd", pd);
         return mv;
     }
+
     /**
      * 进入tab标签
      *
