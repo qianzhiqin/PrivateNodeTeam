@@ -1,15 +1,14 @@
 package com.privatenode.controller.system.secCode;
 
 import com.privatenode.util.Const;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
@@ -30,14 +29,16 @@ import java.util.Random;
 public class SecCodeController {
 
 	@RequestMapping
-	public void generate(HttpServletResponse response){
+	public void generate(HttpServletRequest request,HttpServletResponse response){
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		String code = drawImg(output);
 		
-		Subject currentUser = SecurityUtils.getSubject();
-		Session session = currentUser.getSession();
+//		Subject currentUser = SecurityUtils.getSubject();
+//		Session session = currentUser.getSession();
+//		session.setAttribute(Const.SESSION_SECURITY_CODE, code);
+		HttpSession session = request.getSession();
 		session.setAttribute(Const.SESSION_SECURITY_CODE, code);
-		
+
 		try {
 			ServletOutputStream out = response.getOutputStream();
 			output.writeTo(out);

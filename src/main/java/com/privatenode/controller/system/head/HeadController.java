@@ -1,65 +1,57 @@
 package com.privatenode.controller.system.head;
 
 import com.privatenode.controller.base.BaseController;
-import com.privatenode.service.system.appuser.AppuserService;
-import com.privatenode.service.system.user.UserService;
 import com.privatenode.util.*;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** 
- * ç±»åç§°ï¼šHeadController
- * åˆ›å»ºäººï¼šFH 
- * åˆ›å»ºæ—¶é—´ï¼š2014å¹´8æœˆ16æ—¥
- * @version
- */
 @Controller
 @RequestMapping(value="/head")
 public class HeadController extends BaseController {
 	
-	@Resource(name="userService")
-	private UserService userService;	
-	@Resource(name="appuserService")
-	private AppuserService appuserService;
+//	@Resource(name="userService")
+//	private UserService userService;	
+//	@Resource(name="appuserService")
+//	private AppuserService appuserService;
 	
 	/**
-	 * è·å–å¤´éƒ¨ä¿¡æ¯
+	 * »ñÈ¡Í·²¿ĞÅÏ¢
 	 */
 	@RequestMapping(value="/getUname")
 	@ResponseBody
-	public Object getList() {
+	public Object getList(HttpServletRequest request) {
 		PageData pd = new PageData();
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
 			pd = this.getPageData();
 			List<PageData> pdList = new ArrayList<PageData>();
-			
-			//shiroç®¡ç†çš„session
-			Subject currentUser = SecurityUtils.getSubject();
-			Session session = currentUser.getSession();
-			
+
+			//shiro¹ÜÀíµÄsession
+//			Subject currentUser = SecurityUtils.getSubject();
+//			Session session = currentUser.getSession();
+
+			HttpSession session = request.getSession();
 			PageData pds = new PageData();
 			pds = (PageData)session.getAttribute("userpds");
-			
+
 			if(null == pds){
-				String USERNAME = session.getAttribute(Const.SESSION_USERNAME).toString();	//è·å–å½“å‰ç™»å½•è€…loginname
+//				String USERNAME = session.getAttribute(Const.SESSION_USERNAME).toString();	//»ñÈ¡µ±Ç°µÇÂ¼Õßloginname
+				String USERNAME = "99";	//»ñÈ¡µ±Ç°µÇÂ¼Õßloginname
 				pd.put("USERNAME", USERNAME);
-				pds = userService.findByUId(pd);
+//				pds = userService.findByUId(pd);
 				session.setAttribute("userpds", pds);
 			}
-			
+
 			pdList.add(pds);
 			map.put("list", pdList);
 		} catch (Exception e) {
@@ -71,21 +63,22 @@ public class HeadController extends BaseController {
 	}
 
 	/**
-	 * ä¿å­˜çš®è‚¤
+	 * ±£´æÆ¤·ô
 	 */
 	@RequestMapping(value="/setSKIN")
-	public void setSKIN(PrintWriter out){
+	public void setSKIN(HttpServletRequest request, PrintWriter out){
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			
-			//shiroç®¡ç†çš„session
-			Subject currentUser = SecurityUtils.getSubject();
-			Session session = currentUser.getSession();
-			
-			String USERNAME = session.getAttribute(Const.SESSION_USERNAME).toString();//è·å–å½“å‰ç™»å½•è€…loginname
+
+			//shiro¹ÜÀíµÄsession
+//			Subject currentUser = SecurityUtils.getSubject();
+//			Session session = currentUser.getSession();
+			HttpSession session = request.getSession();
+
+			String USERNAME = session.getAttribute(Const.SESSION_USERNAME).toString();//»ñÈ¡µ±Ç°µÇÂ¼Õßloginname
 			pd.put("USERNAME", USERNAME);
-			userService.setSKIN(pd);
+//			userService.setSKIN(pd);
 			session.removeAttribute(Const.SESSION_userpds);
 			session.removeAttribute(Const.SESSION_USERROL);
 			out.write("success");
@@ -93,14 +86,14 @@ public class HeadController extends BaseController {
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
-		
+
 	}
-	
+
 	/**
-	 * å»ç¼–è¾‘é‚®ç®±é¡µé¢
+	 * È¥±à¼­ÓÊÏäÒ³Ãæ
 	 */
 	@RequestMapping(value="/editEmail")
-	public ModelAndView editEmail() throws Exception {
+	public ModelAndView editEmail() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -108,12 +101,12 @@ public class HeadController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
-	
+
 	/**
-	 * å»å‘é€çŸ­ä¿¡é¡µé¢
+	 * È¥·¢ËÍ¶ÌĞÅÒ³Ãæ
 	 */
 	@RequestMapping(value="/goSendSms")
-	public ModelAndView goSendSms() throws Exception {
+	public ModelAndView goSendSms() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -121,9 +114,9 @@ public class HeadController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
-	
+
 	/**
-	 * å‘é€çŸ­ä¿¡
+	 * ·¢ËÍ¶ÌĞÅ
 	 */
 	@RequestMapping(value="/sendSms")
 	@ResponseBody
@@ -131,34 +124,34 @@ public class HeadController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		Map<String,Object> map = new HashMap<String,Object>();
-		String msg = "ok";		//å‘é€çŠ¶æ€
-		int count = 0;			//ç»Ÿè®¡å‘é€æˆåŠŸæ¡æ•°
-		int zcount = 0;			//ç†è®ºæ¡æ•°
-		
-		
+		String msg = "ok";		//·¢ËÍ×´Ì¬
+		int count = 0;			//Í³¼Æ·¢ËÍ³É¹¦ÌõÊı
+		int zcount = 0;			//ÀíÂÛÌõÊı
+
+
 		List<PageData> pdList = new ArrayList<PageData>();
-		
-		String PHONEs = pd.getString("PHONE");					//å¯¹æ–¹é‚®ç®±
-		String CONTENT = pd.getString("CONTENT");				//å†…å®¹
-		String isAll = pd.getString("isAll");					//æ˜¯å¦å‘é€ç»™å…¨ä½“æˆå‘˜ yes or no
-		String TYPE = pd.getString("TYPE");						//ç±»å‹ 1ï¼šçŸ­ä¿¡æ¥å£1   2ï¼šçŸ­ä¿¡æ¥å£2
-		String fmsg = pd.getString("fmsg");						//åˆ¤æ–­æ˜¯ç³»ç»Ÿç”¨æˆ·è¿˜æ˜¯ä¼šå‘˜ "appuser"ä¸ºä¼šå‘˜ç”¨æˆ·
-		
-		
+
+		String PHONEs = pd.getString("PHONE");					//¶Ô·½ÓÊÏä
+		String CONTENT = pd.getString("CONTENT");				//ÄÚÈİ
+		String isAll = pd.getString("isAll");					//ÊÇ·ñ·¢ËÍ¸øÈ«Ìå³ÉÔ± yes or no
+		String TYPE = pd.getString("TYPE");						//ÀàĞÍ 1£º¶ÌĞÅ½Ó¿Ú1   2£º¶ÌĞÅ½Ó¿Ú2
+		String fmsg = pd.getString("fmsg");						//ÅĞ¶ÏÊÇÏµÍ³ÓÃ»§»¹ÊÇ»áÔ± "appuser"Îª»áÔ±ÓÃ»§
+
+
 		if("yes".endsWith(isAll)){
 			try {
 				List<PageData> userList = new ArrayList<PageData>();
-				
-				userList = "appuser".equals(fmsg) ? appuserService.listAllUser(pd):userService.listAllUser(pd);
-				
+
+//				userList = "appuser".equals(fmsg) ? appuserService.listAllUser(pd):userService.listAllUser(pd);
+
 				zcount = userList.size();
 				try {
 					for(int i=0;i<userList.size();i++){
-						if(Tools.checkMobileNumber(userList.get(i).getString("PHONE"))){			//æ‰‹æœºå·æ ¼å¼ä¸å¯¹å°±è·³è¿‡
+						if(Tools.checkMobileNumber(userList.get(i).getString("PHONE"))){			//ÊÖ»úºÅ¸ñÊ½²»¶Ô¾ÍÌø¹ı
 							if("1".equals(TYPE)){
-//								SmsUtil.sendSms1(userList.get(i).getString("PHONE"), CONTENT);		//è°ƒç”¨å‘çŸ­ä¿¡å‡½æ•°1
+//								SmsUtil.sendSms1(userList.get(i).getString("PHONE"), CONTENT);		//µ÷ÓÃ·¢¶ÌĞÅº¯Êı1
 							}else{
-//								SmsUtil.sendSms2(userList.get(i).getString("PHONE"), CONTENT);		//è°ƒç”¨å‘çŸ­ä¿¡å‡½æ•°2
+//								SmsUtil.sendSms2(userList.get(i).getString("PHONE"), CONTENT);		//µ÷ÓÃ·¢¶ÌĞÅº¯Êı2
 							}
 							count++;
 						}else{
@@ -169,22 +162,22 @@ public class HeadController extends BaseController {
 				} catch (Exception e) {
 					msg = "error";
 				}
-				
+
 			} catch (Exception e) {
 				msg = "error";
 			}
 		}else{
-			PHONEs = PHONEs.replaceAll("ï¼›", ";");
+			PHONEs = PHONEs.replaceAll("£»", ";");
 			PHONEs = PHONEs.replaceAll(" ", "");
 			String[] arrTITLE = PHONEs.split(";");
 			zcount = arrTITLE.length;
 			try {
 				for(int i=0;i<arrTITLE.length;i++){
-					if(Tools.checkMobileNumber(arrTITLE[i])){			//æ‰‹æœºå·å¼ä¸å¯¹å°±è·³è¿‡
+					if(Tools.checkMobileNumber(arrTITLE[i])){			//ÊÖ»úºÅÊ½²»¶Ô¾ÍÌø¹ı
 						if("1".equals(TYPE)){
-//							SmsUtil.sendSms1(arrTITLE[i], CONTENT);		//è°ƒç”¨å‘çŸ­ä¿¡å‡½æ•°1
+//							SmsUtil.sendSms1(arrTITLE[i], CONTENT);		//µ÷ÓÃ·¢¶ÌĞÅº¯Êı1
 						}else{
-//							SmsUtil.sendSms2(arrTITLE[i], CONTENT);		//è°ƒç”¨å‘çŸ­ä¿¡å‡½æ•°2
+//							SmsUtil.sendSms2(arrTITLE[i], CONTENT);		//µ÷ÓÃ·¢¶ÌĞÅº¯Êı2
 						}
 						count++;
 					}else{
@@ -194,21 +187,21 @@ public class HeadController extends BaseController {
 				msg = "ok";
 			} catch (Exception e) {
 				msg = "error";
-			} 
-		}	
+			}
+		}
 		pd.put("msg", msg);
-		pd.put("count", count);						//æˆåŠŸæ•°
-		pd.put("ecount", zcount-count);				//å¤±è´¥æ•°
+		pd.put("count", count);						//³É¹¦Êı
+		pd.put("ecount", zcount-count);				//Ê§°ÜÊı
 		pdList.add(pd);
 		map.put("list", pdList);
 		return AppUtil.returnObject(pd, map);
 	}
-	
+
 	/**
-	 * å»å‘é€ç”µå­é‚®ä»¶é¡µé¢
+	 * È¥·¢ËÍµç×ÓÓÊ¼şÒ³Ãæ
 	 */
 	@RequestMapping(value="/goSendEmail")
-	public ModelAndView goSendEmail() throws Exception {
+	public ModelAndView goSendEmail() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -216,9 +209,9 @@ public class HeadController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
-	
+
 	/**
-	 * å‘é€ç”µå­é‚®ä»¶
+	 * ·¢ËÍµç×ÓÓÊ¼ş
 	 */
 	@RequestMapping(value="/sendEmail")
 	@ResponseBody
@@ -226,36 +219,36 @@ public class HeadController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		Map<String,Object> map = new HashMap<String,Object>();
-		String msg = "ok";		//å‘é€çŠ¶æ€
-		int count = 0;			//ç»Ÿè®¡å‘é€æˆåŠŸæ¡æ•°
-		int zcount = 0;			//ç†è®ºæ¡æ•°
-		
-		String strEMAIL = Tools.readTxtFile(Const.EMAIL);		//è¯»å–é‚®ä»¶é…ç½®
-		
+		String msg = "ok";		//·¢ËÍ×´Ì¬
+		int count = 0;			//Í³¼Æ·¢ËÍ³É¹¦ÌõÊı
+		int zcount = 0;			//ÀíÂÛÌõÊı
+
+		String strEMAIL = Tools.readTxtFile(Const.EMAIL);		//¶ÁÈ¡ÓÊ¼şÅäÖÃ
+
 		List<PageData> pdList = new ArrayList<PageData>();
-		
-		String toEMAIL = pd.getString("EMAIL");					//å¯¹æ–¹é‚®ç®±
-		String TITLE = pd.getString("TITLE");					//æ ‡é¢˜
-		String CONTENT = pd.getString("CONTENT");				//å†…å®¹
-		String TYPE = pd.getString("TYPE");						//ç±»å‹
-		String isAll = pd.getString("isAll");					//æ˜¯å¦å‘é€ç»™å…¨ä½“æˆå‘˜ yes or no
-		
-		String fmsg = pd.getString("fmsg");						//åˆ¤æ–­æ˜¯ç³»ç»Ÿç”¨æˆ·è¿˜æ˜¯ä¼šå‘˜ "appuser"ä¸ºä¼šå‘˜ç”¨æˆ·
-		
+
+		String toEMAIL = pd.getString("EMAIL");					//¶Ô·½ÓÊÏä
+		String TITLE = pd.getString("TITLE");					//±êÌâ
+		String CONTENT = pd.getString("CONTENT");				//ÄÚÈİ
+		String TYPE = pd.getString("TYPE");						//ÀàĞÍ
+		String isAll = pd.getString("isAll");					//ÊÇ·ñ·¢ËÍ¸øÈ«Ìå³ÉÔ± yes or no
+
+		String fmsg = pd.getString("fmsg");						//ÅĞ¶ÏÊÇÏµÍ³ÓÃ»§»¹ÊÇ»áÔ± "appuser"Îª»áÔ±ÓÃ»§
+
 		if(null != strEMAIL && !"".equals(strEMAIL)){
 			String strEM[] = strEMAIL.split(",fh,");
 			if(strEM.length == 4){
 				if("yes".endsWith(isAll)){
 					try {
 						List<PageData> userList = new ArrayList<PageData>();
-						
-						userList = "appuser".equals(fmsg) ? appuserService.listAllUser(pd):userService.listAllUser(pd);
-						
+
+//						userList = "appuser".equals(fmsg) ? appuserService.listAllUser(pd):userService.listAllUser(pd);
+
 						zcount = userList.size();
 						try {
 							for(int i=0;i<userList.size();i++){
-								if(Tools.checkEmail(userList.get(i).getString("EMAIL"))){		//é‚®ç®±æ ¼å¼ä¸å¯¹å°±è·³è¿‡
-//									SimpleMailSender.sendEmail(strEM[0], strEM[1], strEM[2], strEM[3], userList.get(i).getString("EMAIL"), TITLE, CONTENT, TYPE);//è°ƒç”¨å‘é€é‚®ä»¶å‡½æ•°
+								if(Tools.checkEmail(userList.get(i).getString("EMAIL"))){		//ÓÊÏä¸ñÊ½²»¶Ô¾ÍÌø¹ı
+//									SimpleMailSender.sendEmail(strEM[0], strEM[1], strEM[2], strEM[3], userList.get(i).getString("EMAIL"), TITLE, CONTENT, TYPE);//µ÷ÓÃ·¢ËÍÓÊ¼şº¯Êı
 									count++;
 								}else{
 									continue;
@@ -265,19 +258,19 @@ public class HeadController extends BaseController {
 						} catch (Exception e) {
 							msg = "error";
 						}
-						
+
 					} catch (Exception e) {
 						msg = "error";
 					}
 				}else{
-					toEMAIL = toEMAIL.replaceAll("ï¼›", ";");
+					toEMAIL = toEMAIL.replaceAll("£»", ";");
 					toEMAIL = toEMAIL.replaceAll(" ", "");
 					String[] arrTITLE = toEMAIL.split(";");
 					zcount = arrTITLE.length;
 					try {
 						for(int i=0;i<arrTITLE.length;i++){
-							if(Tools.checkEmail(arrTITLE[i])){		//é‚®ç®±æ ¼å¼ä¸å¯¹å°±è·³è¿‡
-//								SimpleMailSender.sendEmail(strEM[0], strEM[1], strEM[2], strEM[3], arrTITLE[i], TITLE, CONTENT, TYPE);//è°ƒç”¨å‘é€é‚®ä»¶å‡½æ•°
+							if(Tools.checkEmail(arrTITLE[i])){		//ÓÊÏä¸ñÊ½²»¶Ô¾ÍÌø¹ı
+//								SimpleMailSender.sendEmail(strEM[0], strEM[1], strEM[2], strEM[3], arrTITLE[i], TITLE, CONTENT, TYPE);//µ÷ÓÃ·¢ËÍÓÊ¼şº¯Êı
 								count++;
 							}else{
 								continue;
@@ -286,8 +279,8 @@ public class HeadController extends BaseController {
 						msg = "ok";
 					} catch (Exception e) {
 						msg = "error";
-					} 
-				}	
+					}
+				}
 			}else{
 				msg = "error";
 			}
@@ -295,30 +288,30 @@ public class HeadController extends BaseController {
 			msg = "error";
 		}
 		pd.put("msg", msg);
-		pd.put("count", count);						//æˆåŠŸæ•°
-		pd.put("ecount", zcount-count);				//å¤±è´¥æ•°
+		pd.put("count", count);						//³É¹¦Êı
+		pd.put("ecount", zcount-count);				//Ê§°ÜÊı
 		pdList.add(pd);
 		map.put("list", pdList);
 		return AppUtil.returnObject(pd, map);
 	}
-	
+
 	/**
-	 * å»ç³»ç»Ÿè®¾ç½®é¡µé¢
+	 * È¥ÏµÍ³ÉèÖÃÒ³Ãæ
 	 */
 	@RequestMapping(value="/goSystem")
-	public ModelAndView goEditEmail() throws Exception {
+	public ModelAndView goEditEmail() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("YSYNAME", Tools.readTxtFile(Const.SYSNAME));	//è¯»å–ç³»ç»Ÿåç§°
-		pd.put("COUNTPAGE", Tools.readTxtFile(Const.PAGE));		//è¯»å–æ¯é¡µæ¡æ•°
-		String strEMAIL = Tools.readTxtFile(Const.EMAIL);		//è¯»å–é‚®ä»¶é…ç½®
-		String strSMS1 = Tools.readTxtFile(Const.SMS1);			//è¯»å–çŸ­ä¿¡1é…ç½®
-		String strSMS2 = Tools.readTxtFile(Const.SMS2);			//è¯»å–çŸ­ä¿¡2é…ç½®
-		String strFWATERM = Tools.readTxtFile(Const.FWATERM);	//è¯»å–æ–‡å­—æ°´å°é…ç½®
-		String strIWATERM = Tools.readTxtFile(Const.IWATERM);	//è¯»å–å›¾ç‰‡æ°´å°é…ç½®
-		pd.put("Token", Tools.readTxtFile(Const.WEIXIN));		//è¯»å–å¾®ä¿¡é…ç½®
-		
+		pd.put("YSYNAME", Tools.readTxtFile(Const.SYSNAME));	//¶ÁÈ¡ÏµÍ³Ãû³Æ
+		pd.put("COUNTPAGE", Tools.readTxtFile(Const.PAGE));		//¶ÁÈ¡Ã¿Ò³ÌõÊı
+		String strEMAIL = Tools.readTxtFile(Const.EMAIL);		//¶ÁÈ¡ÓÊ¼şÅäÖÃ
+		String strSMS1 = Tools.readTxtFile(Const.SMS1);			//¶ÁÈ¡¶ÌĞÅ1ÅäÖÃ
+		String strSMS2 = Tools.readTxtFile(Const.SMS2);			//¶ÁÈ¡¶ÌĞÅ2ÅäÖÃ
+		String strFWATERM = Tools.readTxtFile(Const.FWATERM);	//¶ÁÈ¡ÎÄ×ÖË®Ó¡ÅäÖÃ
+		String strIWATERM = Tools.readTxtFile(Const.IWATERM);	//¶ÁÈ¡Í¼Æ¬Ë®Ó¡ÅäÖÃ
+		pd.put("Token", Tools.readTxtFile(Const.WEIXIN));		//¶ÁÈ¡Î¢ĞÅÅäÖÃ
+
 		if(null != strEMAIL && !"".equals(strEMAIL)){
 			String strEM[] = strEMAIL.split(",fh,");
 			if(strEM.length == 4){
@@ -328,7 +321,7 @@ public class HeadController extends BaseController {
 				pd.put("PAW", strEM[3]);
 			}
 		}
-		
+
 		if(null != strSMS1 && !"".equals(strSMS1)){
 			String strS1[] = strSMS1.split(",fh,");
 			if(strS1.length == 2){
@@ -336,7 +329,7 @@ public class HeadController extends BaseController {
 				pd.put("SMSPAW1", strS1[1]);
 			}
 		}
-		
+
 		if(null != strSMS2 && !"".equals(strSMS2)){
 			String strS2[] = strSMS2.split(",fh,");
 			if(strS2.length == 2){
@@ -344,7 +337,7 @@ public class HeadController extends BaseController {
 				pd.put("SMSPAW2", strS2[1]);
 			}
 		}
-		
+
 		if(null != strFWATERM && !"".equals(strFWATERM)){
 			String strFW[] = strFWATERM.split(",fh,");
 			if(strFW.length == 5){
@@ -355,7 +348,7 @@ public class HeadController extends BaseController {
 				pd.put("fontY", strFW[4]);
 			}
 		}
-		
+
 		if(null != strIWATERM && !"".equals(strIWATERM)){
 			String strIW[] = strIWATERM.split(",fh,");
 			if(strIW.length == 4){
@@ -365,66 +358,66 @@ public class HeadController extends BaseController {
 				pd.put("imgY", strIW[3]);
 			}
 		}
-		
+
 		mv.setViewName("system/head/sys_edit");
 		mv.addObject("pd", pd);
-		
+
 		return mv;
 	}
-	
+
 	/**
-	 * ä¿å­˜ç³»ç»Ÿè®¾ç½®1
+	 * ±£´æÏµÍ³ÉèÖÃ1
 	 */
 	@RequestMapping(value="/saveSys")
-	public ModelAndView saveSys() throws Exception {
+	public ModelAndView saveSys() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		Tools.writeFile(Const.SYSNAME,pd.getString("YSYNAME"));	//å†™å…¥ç³»ç»Ÿåç§°
-		Tools.writeFile(Const.PAGE,pd.getString("COUNTPAGE"));	//å†™å…¥æ¯é¡µæ¡æ•°
-		Tools.writeFile(Const.EMAIL,pd.getString("SMTP")+",fh,"+pd.getString("PORT")+",fh,"+pd.getString("EMAIL")+",fh,"+pd.getString("PAW"));	//å†™å…¥é‚®ä»¶æœåŠ¡å™¨é…ç½®
-		Tools.writeFile(Const.SMS1,pd.getString("SMSU1")+",fh,"+pd.getString("SMSPAW1"));	//å†™å…¥çŸ­ä¿¡1é…ç½®
-		Tools.writeFile(Const.SMS2,pd.getString("SMSU2")+",fh,"+pd.getString("SMSPAW2"));	//å†™å…¥çŸ­ä¿¡2é…ç½®
+		Tools.writeFile(Const.SYSNAME,pd.getString("YSYNAME"));	//Ğ´ÈëÏµÍ³Ãû³Æ
+		Tools.writeFile(Const.PAGE,pd.getString("COUNTPAGE"));	//Ğ´ÈëÃ¿Ò³ÌõÊı
+		Tools.writeFile(Const.EMAIL,pd.getString("SMTP")+",fh,"+pd.getString("PORT")+",fh,"+pd.getString("EMAIL")+",fh,"+pd.getString("PAW"));	//Ğ´ÈëÓÊ¼ş·şÎñÆ÷ÅäÖÃ
+		Tools.writeFile(Const.SMS1,pd.getString("SMSU1")+",fh,"+pd.getString("SMSPAW1"));	//Ğ´Èë¶ÌĞÅ1ÅäÖÃ
+		Tools.writeFile(Const.SMS2,pd.getString("SMSU2")+",fh,"+pd.getString("SMSPAW2"));	//Ğ´Èë¶ÌĞÅ2ÅäÖÃ
 		mv.addObject("msg","OK");
 		mv.setViewName("save_result");
 		return mv;
 	}
-	
+
 	/**
-	 * ä¿å­˜ç³»ç»Ÿè®¾ç½®2
+	 * ±£´æÏµÍ³ÉèÖÃ2
 	 */
 	@RequestMapping(value="/saveSys2")
-	public ModelAndView saveSys2() throws Exception {
+	public ModelAndView saveSys2() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		Tools.writeFile(Const.FWATERM,pd.getString("isCheck1")+",fh,"+pd.getString("fcontent")+",fh,"+pd.getString("fontSize")+",fh,"+pd.getString("fontX")+",fh,"+pd.getString("fontY"));	//æ–‡å­—æ°´å°é…ç½®
-		Tools.writeFile(Const.IWATERM,pd.getString("isCheck2")+",fh,"+pd.getString("imgUrl")+",fh,"+pd.getString("imgX")+",fh,"+pd.getString("imgY"));	//å›¾ç‰‡æ°´å°é…ç½®
+		Tools.writeFile(Const.FWATERM,pd.getString("isCheck1")+",fh,"+pd.getString("fcontent")+",fh,"+pd.getString("fontSize")+",fh,"+pd.getString("fontX")+",fh,"+pd.getString("fontY"));	//ÎÄ×ÖË®Ó¡ÅäÖÃ
+		Tools.writeFile(Const.IWATERM,pd.getString("isCheck2")+",fh,"+pd.getString("imgUrl")+",fh,"+pd.getString("imgX")+",fh,"+pd.getString("imgY"));	//Í¼Æ¬Ë®Ó¡ÅäÖÃ
 		Watermark.fushValue();
 		mv.addObject("msg","OK");
 		mv.setViewName("save_result");
 		return mv;
 	}
-	
+
 	/**
-	 * ä¿å­˜ç³»ç»Ÿè®¾ç½®3
+	 * ±£´æÏµÍ³ÉèÖÃ3
 	 */
 	@RequestMapping(value="/saveSys3")
-	public ModelAndView saveSys3() throws Exception {
+	public ModelAndView saveSys3() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		Tools.writeFile(Const.WEIXIN,pd.getString("Token"));	//å†™å…¥å¾®ä¿¡é…ç½®
+		Tools.writeFile(Const.WEIXIN,pd.getString("Token"));	//Ğ´ÈëÎ¢ĞÅÅäÖÃ
 		mv.addObject("msg","OK");
 		mv.setViewName("save_result");
 		return mv;
 	}
-	
+
 	/**
-	 * å»ä»£ç ç”Ÿæˆå™¨é¡µé¢
+	 * È¥´úÂëÉú³ÉÆ÷Ò³Ãæ
 	 */
 	@RequestMapping(value="/goProductCode")
-	public ModelAndView goProductCode() throws Exception {
+	public ModelAndView goProductCode() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		mv.setViewName("system/head/productCode");
 		return mv;
