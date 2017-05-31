@@ -42,7 +42,8 @@
 	</div>
 	<!-- #sidebar-shortcuts -->
 
-	<%--<ul class="nav nav-list">
+	<ul class="nav nav-list">
+		<%--
 		<%
 			if (powerList.size() > 0) {
 				for (PageData pageData : powerList) {
@@ -62,7 +63,7 @@
 					</span>
 					<b class="arrow icon-angle-down"></b>
 			</a>
-			<ul class="submenu" style="display: none;">
+			<%--<ul class="submenu" style="display: none;">
 				<li id="z7">
 					<a style="cursor:pointer;" target="mainFrame"
 							onclick="siMenu('z7','lm6','权限管理','power/listPowers')">
@@ -70,7 +71,7 @@
 							权限管理
 					</a>
 					</li>
-			</ul>
+			</ul>--%>
 		</li>
 	</ul>
 	<!--/.nav-list-->
