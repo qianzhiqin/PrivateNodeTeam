@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DeviceMapper">
+
+	<!-- 列表(全部) -->
+	<select id="listPageAllMUser" parameterType="page" resultType="pd">
+		SELECT
+		uor.`owner_id` ownerID,
+		uor.`account_telephone`,
+		uor.`login_password`,
+		uor.`type`,
+		uor.`user_headImage`,
+		uor.`driver_name` driverName,
+		uor.`id_card`,
+		uor.`car_model`,
+		uor.`car_num_plate`,
+		uor.`address`,
+		uor.`telephone_num`,
+		uor.`balance`,
+		uor.`open_account_bank`,
+		uor.`account_number`,
+		uor.`is_have_car`,
+		uor.`scoring`,
+		uor.`is_vip`,
+		FROM_UNIXTIME(COALESCE(SUBSTRING_INDEX(token,'@',-1),0)) token,
+		tmf.tmfTimes tmfTimes,
+		tmf.tmfOrderAmount totalMoney
+		FROM
+		`u_owner` uor
+		LEFT JOIN
+		(SELECT
+		userID,
+		COUNT(userID) tmfTimes,
+		SUM(orderAmount)
+		tmfOrderAmount
+		FROM
+		`u_order_info` a
+		GROUP BY userID) tmf
+		ON
+		uor.`owner_id` = tmf.userID
+	</select>
+
+	<!-- 列表(根据KEY) -->
+	<select id="listPageMuserByKey" parameterType="page" resultType="pd">
+		SELECT
+		uor.`owner_id` ownerID,
+		uor.`account_telephone`,
+		uor.`login_password`,
+		uor.`type`,
+		uor.`user_headImage`,
+		uor.`driver_name` driverName,
+		uor.`id_card`,
+		uor.`car_model`,
+		uor.`car_num_plate`,
+		uor.`address`,
+		uor.`telephone_num`,
+		uor.`balance`,
+		uor.`open_account_bank`,
+		uor.`account_number`,
+		uor.`is_have_car`,
+		uor.`scoring`,
+		uor.`is_vip`,
+		FROM_UNIXTIME(COALESCE(SUBSTRING_INDEX(token,'@',-1),0)) token,
+		tmf.tmfTimes tmfTimes,
+		tmf.tmfOrderAmount totalMoney
+		FROM
+		`u_owner` uor
+		LEFT JOIN
+		(SELECT
+		userID,
+		COUNT(userID) tmfTimes,
+		SUM(orderAmount)
+		tmfOrderAmount
+		FROM
+		`u_order_info` a
+		GROUP BY userID) tmf
+		ON
+		uor.`owner_id` = tmf.userID WHERE uor.`driver_name` LIKE
+		CONCAT('%',#{pd.keyword},'%')
+	</select>
+
+	<!-- find by id -->
+	<select id="findMUserById" parameterType="String" resultType="pd">
+		SELECT
+		uor.`owner_id` ownerID,
+		uor.`account_telephone`,
+		uor.`login_password`,
+		uor.`type`,
+		uor.`user_headImage`,
+		uor.`driver_name` driverName,
+		uor.`id_card`,
+		uor.`car_model`,
+		uor.`car_num_plate`,
+		uor.`address`,
+		uor.`telephone_num`,
+		uor.`balance`,
+		uor.`open_account_bank`,
+		uor.`account_number`,
+		uor.`is_have_car`,
+		uor.`scoring`,
+		uor.`is_vip`
+		FROM
+		`u_owner` uor WHERE
+		uor.`owner_id`=#{owerID}
+	</select>
+
+	<select id="findMaxMUserId" parameterType="pd" resultType="pd">
+		select MAX(id) mid FROM u_user
+	</select>
+
+	<select id="findUserinfoMaxId" parameterType="pd" resultType="pd">
+		select MAX(id) mid FROM u_userinfo
+	</select>
+
+
+	<delete id="deleteAllMUser" parameterType="String">
+		delete from u_owner
+		where
+		owner_id in
+		<foreach item="item" index="index" collection="array" open="("
+				 separator="," close=")">
+			#{item}
+		</foreach>
+
+	</delete>
+
+	<delete id="deleteAllUserInfo" parameterType="String">
+		delete from u_userinfo
+		where
+		id in
+		<foreach item="item" index="index" collection="array" open="("
+				 separator="," close=")">
+			#{item}
+		</foreach>
+
+	</delete>
+
+	<delete id="deleteMUser" parameterType="String">
+		delete from u_owner
+		where
+		owner_id = #{id}
+	</delete>
+
+	<delete id="deleteUserInfo" parameterType="String">
+		delete from u_userinfo
+		where
+		id = #{id}
+	</delete>
+
+	<update id="updateMUser" parameterType="pd">
+		UPDATE
+		`u_owner`
+		SET
+		account_number = #{accountNumber},
+		balance = #{balance},
+		id_card = #{idCard},
+		car_model =
+		#{carModel},
+		open_account_bank = #{openAccountBank},
+		is_vip = #{isVip},
+		car_num_plate = #{carNumPlate},
+		address = #{address},
+		is_have_car =
+		#{isHaveCar},
+		TYPE = #{type},
+		account_telephone = #{accountTelephone},
+		driver_name = #{driverName},
+		user_headImage = #{userHeadImage}
+		WHERE owner_id=#{ownerID}
+	</update>
+
+	<update id="updateUserInfo" parameterType="pd">
+		update u_userinfo
+		<set>
+			<if test="level!=null and level!='' ">
+				level = #{level},
+			</if>
+			<if test="points!=null and points!='' ">
+				points = #{points},
+			</if>
+			<if test="account_balance!=null and account_balance!='' ">
+				account_balance = #{account_balance}
+			</if>
+
+		</set>
+		where
+		user_id = #{id}
+	</update>
+	<select id="listPageRecharge" parameterType="page" resultType="pd">
+		SELECT * FROM u_payment_bills WHERE user_id = #{pd.id}
+	</select>
+	<delete id="deleteRecharge" parameterType="String">
+		delete from
+		u_payment_bills
+		where
+		id = #{id}
+	</delete>
+
+	<!-- 新表 -->
+
+	<insert id="saveUowner" parameterType="pd">
+		INSERT INTO `u_owner` (
+		owner_id,
+		account_telephone,
+		login_password,
+		TYPE,
+		user_headImage,
+		driver_name,
+		id_card,
+		car_model,
+		car_num_plate,
+		address,
+		telephone_num,
+		balance,
+		open_account_bank,
+		account_number,
+		is_have_car,
+		scoring,
+		totalScoring,
+		createTime,
+		is_vip,
+		token
+		)
+		VALUES
+		(#{owerID},#{accountTelephone},#{loginPassword},#{type},#{userHeadImage},#{driverName},#{idCard},#{carModel},#{carNumPlate},#{address},#{telephoneNum},#{balance},#{openAccountBank},#{accountNumber},#{isHaveCar},#{scoring},#{totalScoring},#{createTime},#{isVip},#{token})
+
+	</insert>
+
+
+</mapper>
