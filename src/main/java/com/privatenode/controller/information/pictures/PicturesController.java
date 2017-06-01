@@ -65,7 +65,7 @@ public class PicturesController extends BaseController {
 			pd.put("MASTER_ID", "1");							//附属与
 			pd.put("BZ", "图片管理处上传");						//备注
 			//加水印
-			Watermark.setWatemark(PathUtil.getClasspath() + Const.FILEPATHIMG + ffile + "/" + fileName);
+//			Watermark.setWatemark(PathUtil.getClasspath() + Const.FILEPATHIMG + ffile + "/" + fileName);
 			picturesService.save(pd);
 		}
 		map.put("result", "ok");
@@ -126,7 +126,7 @@ public class PicturesController extends BaseController {
 			}else{
 				pd.put("PATH", tpz);
 			}
-			Watermark.setWatemark(PathUtil.getClasspath() + Const.FILEPATHIMG + ffile + "/" + fileName);//加水印
+//			Watermark.setWatemark(PathUtil.getClasspath() + Const.FILEPATHIMG + ffile + "/" + fileName);//加水印
 			picturesService.edit(pd);				//执行修改数据库
 		}
 		mv.addObject("msg","success");
