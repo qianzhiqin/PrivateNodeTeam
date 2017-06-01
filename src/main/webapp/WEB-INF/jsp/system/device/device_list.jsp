@@ -131,13 +131,6 @@
             }
         }
 
-        //导出excel
-        function toExcel() {
-            alert("待开发");
-            <!--			window.location.href='
-            <%=basePath%>pictures/excel.do';
-		-->
-        }
     </script>
 
 </head>
