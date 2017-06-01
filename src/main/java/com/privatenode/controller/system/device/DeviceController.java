@@ -14,10 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by qianzhiqin on 2017/5/31.
@@ -187,7 +185,7 @@ public class DeviceController extends BaseController {
             @RequestParam(value = "inexpress") String inexpress,
             @RequestParam(value = "outexpress") String outexpress,
             @RequestParam(value = "repairdate") String repairdate,
-            @RequestParam(value = "updatedate") String updatedate,
+//            @RequestParam(value = "updatedate") String updatedate,
             @RequestParam(value = "description") String description,
             @RequestParam(value = "operator") String operator) throws Exception {
         logBefore(logger, "修改device");
@@ -200,15 +198,17 @@ public class DeviceController extends BaseController {
             pd.put("name", name);
             pd.put("mine", mine);
             pd.put("type", type);
-            pd.put("num", num);
+            pd.put("num", Integer.parseInt(num));
             pd.put("cardtype", cardtype);
             pd.put("status", status);
             pd.put("inexpress", inexpress);
             pd.put("outexpress", outexpress);
             pd.put("repairdate", repairdate);
-            pd.put("updatedate", updatedate);
             pd.put("description", description);
             pd.put("operator", operator);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String updatedate = sdf.format(new Date());
+            pd.put("updatedate",updatedate);
 
             deviceService.updateDevice(pd);
             List<PageData> varList = deviceService.list(page);
@@ -273,6 +273,9 @@ public class DeviceController extends BaseController {
 //            pd.put("updatedate", updatedate);
             pd.put("description", description);
             pd.put("operator", operator);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String updatedate = sdf.format(new Date());
+            pd.put("updatedate",updatedate);
             deviceService.saveDevice(pd);
 
 

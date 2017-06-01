@@ -2,6 +2,7 @@
 		 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -90,10 +91,8 @@
 	</script>
 </head>
 <body style="background-color:#fff;">
-<div id="zhongxin"
-	 style="width:100%;text-align:center; margin-top:10px;">
-	<form action="device/add.do" name="deviceForm" id="deviceForm"
-		  method="post" style="position:relative;">
+<div id="zhongxin" style="width:100%;text-align:center; margin-top:10px;">
+	<form action="device/add.do" name="deviceForm" id="deviceForm" method="post" style="position:relative;">
 		<table align="center" border="0">
 			<tr>
 				<%--<td style="height: 60%"><span--%>
@@ -170,8 +169,7 @@
 						</tr>
 						<tr>
 							<td>描述信息</td>
-							<td><input type="textarea" name="description" id="description"
-									   placeholder="描述" value="" title="描述" /></td>
+							<td><textarea rows="3" cols="20" name="description" id="description"></textarea></td>
 						</tr>
 						<tr>
 							<td style="text-align: center; padding-top: 5px;"><a
