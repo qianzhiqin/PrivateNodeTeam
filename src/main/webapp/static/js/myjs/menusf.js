@@ -1,6 +1,6 @@
 $(function() {
 	if(typeof($.cookie('menusf')) == "undefined"){
-		$("#sidebar").attr("class","menu-min");
+		//$("#sidebar").attr("class","menu-min");
 	}else{
 		$("#sidebar").attr("class","");
 	}
@@ -10,7 +10,7 @@ $(function() {
 function menusf(){
 	if(document.getElementsByName('menusf')[0].checked){
 		$.cookie('menusf', '', { expires: -1 });
-		$("#sidebar").attr("class","menu-min");
+		//$("#sidebar").attr("class","menu-min");
 	}else{
 		$.cookie('menusf', 'ok');
 		$("#sidebar").attr("class","");

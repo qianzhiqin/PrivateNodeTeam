@@ -1934,7 +1934,7 @@ div.jqZoomTitle {
 
 .benma_ui_tab .tab_item2_selected {
 	background-position: 0 -84px;
-	color: #fff;
+	/*color: #fff;*/
 }
 
 .benma_ui_tab .tab_item3_mouseover {
@@ -1988,7 +1988,7 @@ div.jqZoomTitle {
 
 .benma_ui_tab .tab_item2_selected_bottom {
 	background-position: 0 -102px !important;
-	color: #fff;
+	/*color: #fff;*/
 }
 
 .benma_ui_tab .tab_item3_mouseover_bottom {
