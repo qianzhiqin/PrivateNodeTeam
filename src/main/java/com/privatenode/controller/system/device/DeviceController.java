@@ -261,9 +261,10 @@ public class DeviceController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd =  this.getPageData();
         try {
+            pd.put("name",name);
             pd.put("mine", mine);
             pd.put("type", type);
-            pd.put("num", num);
+            pd.put("num", Integer.parseInt(num));
             pd.put("cardtype", cardtype);
             pd.put("status", status);
             pd.put("inexpress", inexpress);

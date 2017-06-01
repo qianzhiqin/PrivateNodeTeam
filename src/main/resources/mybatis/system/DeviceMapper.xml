@@ -130,18 +130,18 @@
 		)
 		VALUES
 		(
-		name=#{name},
-		mine=#{mine},
-		type=#{type},
-		num=#{num},
-		cardtype=#{cardtype},
-		status=#{status},
-		inexpress=#{inexpress},
-		outexpress=#{outexpress},
-		repairdate=#{repairdate},
-		updatedate=#{updatedate},
-		description=#{description},
-		operator=#{operator}
+		#{name},
+		#{mine},
+		#{type},
+		#{num},
+		#{cardtype},
+		#{status},
+		#{inexpress},
+		#{outexpress},
+		#{repairdate},
+		#{updatedate},
+		#{description},
+	    #{operator}
 		)
 
 	</insert>
