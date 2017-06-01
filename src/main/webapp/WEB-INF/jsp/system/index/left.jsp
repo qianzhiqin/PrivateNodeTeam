@@ -75,7 +75,7 @@
 			</ul>--%>
 		</li>
 		<li class="active" >
-			<a onclick="javascript:void(0);"
+			<a onclick="location.href='device/listAll'"
 			   target="mainFrame" onmouseover="this.style.backgroundColor='#7EBAE0'"
 			   onmouseout="this.style.backgroundColor='#DBEAF9'"
 			   style="background: #DBEAF9">

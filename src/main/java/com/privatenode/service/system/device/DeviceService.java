@@ -23,104 +23,66 @@ public class DeviceService {
     *列表(全部)
     */
     public List<PageData> listAll(Page page) throws Exception {
-        return (List<PageData>) dao.findForList("OwnerMapper.listPageAllMUser", page);
+        return (List<PageData>) dao.findForList("DeviceMapper.listPageAllDevice", page);
     }
 
     /*
     *根据条件查询 列表
     */
     public List<PageData> list(Page page) throws Exception {
-        return (List<PageData>) dao.findForList("OwnerMapper.listPageAllMUser", page);
+        return (List<PageData>) dao.findForList("DeviceMapper.listPageAllDevice", page);
     }
 
     /*
     *根据keyWord查询 列表
     */
     public List<PageData> listByKey(Page page) throws Exception {
-        return (List<PageData>) dao.findForList("OwnerMapper.listPageMuserByKey", page);
+        return (List<PageData>) dao.findForList("DeviceMapper.listPageDeviceByKey", page);
     }
 
     /*
      *根据 id 查询实体
      */
     public PageData findById(String owerID) throws Exception {
-        return (PageData) dao.findForObject("OwnerMapper.findMUserById", owerID);
+        return (PageData) dao.findForObject("DeviceMapper.findDeviceById", owerID);
     }
 
     /*
     *取最大的ID
     */
     public PageData findMaxId(PageData pd) throws Exception {
-        return (PageData) dao.findForObject("OwnerMapper.findMaxMUserId", pd);
+        return (PageData) dao.findForObject("DeviceMapper.findMaxDeviceId", pd);
     }
 
-    /*
-     *取userinfo最大的ID
-     */
-    public PageData findUserinfoMaxId(PageData pd) throws Exception {
-        return (PageData) dao.findForObject("OwnerMapper.findUserinfoMaxId", pd);
-    }
 
     /*
     *保存u_user
     */
-    public void saveUowner(PageData pd) throws Exception {
-        dao.save("OwnerMapper.saveUowner", pd);
+    public void saveDevice(PageData pd) throws Exception {
+        dao.save("DeviceMapper.saveDevice", pd);
     }
 
     /*
     * 删除
     */
     public void delete(String id) throws Exception {
-        dao.delete("OwnerMapper.deleteMUser", id);
+        dao.delete("DeviceMapper.deleteDevice", id);
     }
 
-    /*
-     * 删除userinfo
-     */
-    public void deleteUserInfo(String id) throws Exception {
-        dao.delete("OwnerMapper.deleteUserInfo", id);
-    }
 
     /*
      * 批量删除
      */
     public void deleteAll(String[] ids) throws Exception {
-        dao.delete("OwnerMapper.deleteAllMUser", ids);
-    }
-
-    /*
-     * 批量删除userinfo
-     */
-    public void deleteAllUserInfo(String[] ids) throws Exception {
-        dao.delete("OwnerMapper.deleteAllUserInfo", ids);
+        dao.delete("DeviceMapper.deleteAllDevice", ids);
     }
 
     /*
      *更新user
      */
-    public void updateUser(PageData pd) throws Exception {
-        dao.update("OwnerMapper.updateMUser", pd);
+    public void updateDevice(PageData pd) throws Exception {
+        dao.update("DeviceMapper.updateDevice", pd);
     }
 
-    /*
-     * 更新userinfo
-     */
-    public void updateUserInfo(PageData pd) throws Exception {
-        dao.update("OwnerMapper.updateUserInfo", pd);
-    }
 
-    /*
-    *充值 列表
-    */
-    public List<PageData> listRecharge(Page page) throws Exception {
-        return (List<PageData>) dao.findForList("OwnerMapper.listPageRecharge", page);
-    }
-
-    /*
-     * 删除充值信息
-     */
-    public void deleteRecharge(String id) throws Exception {
-        dao.delete("OwnerMapper.deleteRecharge", id);
-    }
 }

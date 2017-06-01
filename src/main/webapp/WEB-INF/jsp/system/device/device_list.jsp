@@ -1,4 +1,4 @@
-<%@page import="com.redhat.util.DateUtil"%>
+<%@page import="com.privatenode.util.DateUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -29,15 +29,15 @@
 		function searchForm(){
 			top.jzts();
 
-			if($("#registration_time").val()=="今天"){
-				var dateStr = show();
-				$("#registration_time").val(dateStr);
-			}
-			if($("#active").val()=="今天"){
-				var dateStr = show();
-				$("#active").val(dateStr);
-			}
-
+//			if($("#registration_time").val()=="今天"){
+//				var dateStr = show();
+//				$("#registration_time").val(dateStr);
+//			}
+//			if($("#active").val()=="今天"){
+//				var dateStr = show();
+//				$("#active").val(dateStr);
+//			}
+			alert()
 			$("#Form").submit();
 		}
 		function show(){
@@ -50,17 +50,17 @@
 
 		//新增
 		function add(){
-			window.location.href = "owner/goAdd.do?tm="+new Date().getTime();
+			window.location.href = "device/goAdd.do?tm="+new Date().getTime();
 		}
 
 		//删除
 		function del(id){
 			top.jzts();
 			if(confirm("确定要删除?")){
-				var url = "<%=basePath%>owner/delete.do?id="+id+"&tm="+new Date().getTime();
+				var url = "<%=basePath%>device/delete.do?id="+id+"&tm="+new Date().getTime();
 				$.get(url,function(data){
 					if("success" == data){
-						window.location.href = "owner/listAll.do?tm="+new Date().getTime();
+						window.location.href = "device/listAll.do?tm="+new Date().getTime();
 					}else{
 						alert("删除失败");
 					}
@@ -71,7 +71,7 @@
 
 		//修改
 		function edit(id){
-			window.location.href = "owner/goEdit.do?id="+id+"&tm="+new Date().getTime();
+			window.location.href = "device/goEdit.do?id="+id+"&tm="+new Date().getTime();
 		}
 
 
@@ -116,14 +116,14 @@
 						top.jzts();
 						$.ajax({
 							type: "POST",
-							url: '<%=basePath%>owner/deleteAll.do?tm='+new Date().getTime(),
+							url: '<%=basePath%>device/deleteAll.do?tm='+new Date().getTime(),
 							data: {DATA_IDS:str},
 							dataType:'json',
 							//beforeSend: validateData,
 							cache: false,
 							success: function(data){
 								if("success" == data.result){
-									window.location.href = "owner/listAll.do?tm="+new Date().getTime();
+									window.location.href = "device/listAll.do?tm="+new Date().getTime();
 								}
 							}
 						});
@@ -152,13 +152,13 @@
 			<div class="row-fluid">
 
 				<!-- 检索  -->
-				<form action="owner/list.do" method="post" name="Form" id="Form">
+				<form action="device/list.do" method="post" name="Form" id="Form">
 					<table width="100%" align="center">
 						<tr>
 							<td style="width: 70%"><label> </label></td>
 							<td><span class="input-icon"><input
 									autocomplete="off" id="nav-search-input" type="text"
-									name="keyword" value="${pd.keyword}" placeholder="输入用户名" />
+									name="keyword" value="${pd.keyword}" placeholder="请输入查询内容" />
 								</span></td>
 
 							<td style="vertical-align: middle;">
@@ -186,13 +186,18 @@
 									class="lbl"></span>
 							</label></th>
 							<th>编号</th>
-							<th>用户类型</th>
-							<th>姓名</th>
-							<th>手机</th>
-							<th>消费</th>
-							<th>最后登录</th>
-							<th>洗车次数</th>
-							<th>等级</th>
+							<th>名称</th>
+							<th>矿场</th>
+							<th>设备类型</th>
+							<th>数量</th>
+							<th>显卡类型</th>
+							<th>设备状态</th>
+							<th>寄出订单</th>
+							<th>寄回订单</th>
+							<th>维修时间</th>
+							<th>更新时间</th>
+							<th>操作人</th>
+							<th>描述</th>
 							<th class="center">操作</th>
 						</tr>
 						</thead>
@@ -205,36 +210,34 @@
 								<c:forEach items="${varList}" var="var" varStatus="vs">
 									<tr>
 										<td class='center' style="width: 30px;"><label>
-											<input type='checkbox' name='ids' value="${var.ownerID}" />
+											<input type='checkbox' name='ids' value="${var.id}" />
 											<span class="lbl"></span>
 										</label></td>
 
-										<td>${var.ownerID}</td>
-										<td>
-											<c:if test="${var.is_have_car eq 0 }">
-												注册用户
-											</c:if>
-											<c:if test="${var.is_have_car eq 1 }">
-												第三方用户
-											</c:if>
-										</td>
-										<td>${var.driverName}</td>
-										<td>${var.account_telephone}</td>
-										<td>${var.totalMoney}</td>
-										<td>${var.token}</td>
-										<td>${var.tmfTimes}</td>
-										<td>${var.level}</td>
+										<td>${var.id}</td>
+										<td>${var.name}</td>
+										<td>${var.mine}</td>
+										<td>${var.type}</td>
+										<td>${var.num}</td>
+										<td>${var.cardtype}</td>
+										<td>${var.status}</td>
+										<td>${var.inexpress}</td>
+										<td>${var.outexpress}</td>
+										<td>${var.repairdate}</td>
+										<td>${var.updatedate}</td>
+										<td>${var.operator}</td>
+										<td>${var.description}</td>
 										<td style="width: 50px;" class="center"><span>
 														<div style="float:left;">
 															<a style="cursor: pointer;" title="编辑"
-															   onclick="edit('${var.ownerID}');"
+															   onclick="edit('${var.id}');"
 															   class="tooltip-success" data-rel="tooltip" title=""
 															   data-placement="left"><span class="green"><i
 																	class="icon-edit"></i> </span> </a>
 														</div>
 														<div style="float:right;">
 															<a style="cursor: pointer;" title="删除"
-															   onclick="del('${var.ownerID}');" class="tooltip-error"
+															   onclick="del('${var.id}');" class="tooltip-error"
 															   data-rel="tooltip" title="" data-placement="left"><span
 																	class="red"><i class="icon-trash"></i> </span> </a>
 														</div>

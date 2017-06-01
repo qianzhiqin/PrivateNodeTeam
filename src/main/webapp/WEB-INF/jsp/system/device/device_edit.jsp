@@ -122,8 +122,8 @@
 	  enctype="multipart/form-data">
 	<div id="zhongxin"
 		 style="width:100%;text-align:center; margin-top:10px;">
-		<input type="hidden" name="ownerID" id="ownerID"
-			   value="${pd.ownerID}" />
+		<input type="hidden" name="id" id="id"
+			   value="${pd.id}" />
 		<table>
 			<tr>
 				<td><span style="width:200px;height: 100px;">
