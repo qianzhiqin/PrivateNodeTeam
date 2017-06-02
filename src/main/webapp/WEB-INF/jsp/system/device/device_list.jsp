@@ -37,7 +37,6 @@
 //				var dateStr = show();
 //				$("#active").val(dateStr);
 //			}
-            alert()
             $("#Form").submit();
         }
         function show() {
