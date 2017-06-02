@@ -15,9 +15,9 @@ public class UserService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
-	
+
 	//======================================================================================
-	
+
 	/*
 	* 通过id获取数据
 	*/
@@ -30,21 +30,21 @@ public class UserService {
 	public PageData findByUId(PageData pd)throws Exception {
 		return (PageData)dao.findForObject("UserXMapper.findByUId", pd);
 	}
-	
+
 	/*
 	* 通过邮箱获取数据
 	*/
 	public PageData findByUE(PageData pd)throws Exception {
 		return (PageData)dao.findForObject("UserXMapper.findByUE", pd);
 	}
-	
+
 	/*
 	* 通过编号获取数据
 	*/
 	public PageData findByUN(PageData pd)throws Exception {
 		return (PageData)dao.findForObject("UserXMapper.findByUN", pd);
 	}
-	
+
 	/*
 	* 保存用户
 	*/
@@ -81,14 +81,14 @@ public class UserService {
 	public List<PageData> listPdPageUser(Page page)throws Exception {
 		return (List<PageData>) dao.findForList("UserXMapper.userlistPage", page);
 	}
-	
+
 	/*
 	*用户列表(全部)
 	*/
 	public List<PageData> listAllUser(PageData pd)throws Exception {
 		return (List<PageData>) dao.findForList("UserXMapper.listAllUser", pd);
 	}
-	
+
 	/*
 	*用户列表(供应商用户)
 	*/
@@ -101,7 +101,7 @@ public class UserService {
 	public void saveIP(PageData pd)throws Exception {
 		dao.update("UserXMapper.saveIP", pd);
 	}
-	
+
 	/*
 	* 登录判断
 	*/
@@ -114,7 +114,7 @@ public class UserService {
 	public void updateLastLogin(PageData pd)throws Exception {
 		dao.update("UserXMapper.updateLastLogin", pd);
 	}
-	
+
 	/*
 	*通过id获取数据
 	*/
@@ -122,5 +122,8 @@ public class UserService {
 		return (User) dao.findForObject("UserMapper.getUserAndRoleById", USER_ID);
 	}
 
-	
+
+    public PageData getUserByPwd(PageData pd) throws Exception {
+        return (PageData)dao.findForObject("UserMapper.getUserInfoByPwd", pd);
+    }
 }

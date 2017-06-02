@@ -44,6 +44,15 @@
 		and USER_ID = #{USER_ID}
 		</if>
 	</select>
+
+	<!-- 判断用户名和密码 -->
+	<select id="getUserInfoByPwd" parameterType="pd" resultType="pd">
+		select * from sys_user
+		where 1=1
+		<if test="USERNAME!=null and PASSWORD!=null">
+			and USERNAME = #{USERNAME} and PASSWORD =#{PASSWORD}
+		</if>
+	</select>
 	
 	<select id="getUserAndRoleById" parameterType="String" resultMap="userAndRoleResultMap">
 		select  u.USER_ID,

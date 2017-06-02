@@ -79,7 +79,7 @@ public class LoginController extends BaseController {
         String errInfo = "";
         String KEYDATA[] = pd.getString("KEYDATA").replaceAll("qq313596790fh", "").replaceAll("QQ978336446fh", "").split(",fh,");
 
-/*        if (null != KEYDATA && KEYDATA.length == 3) {
+        if (null != KEYDATA && KEYDATA.length == 3) {
             HttpSession session = request.getSession();
             String sessionCode = (String) session.getAttribute(Const.SESSION_SECURITY_CODE); // 获取session中的验证码
             String code = KEYDATA[2];
@@ -88,14 +88,14 @@ public class LoginController extends BaseController {
             } else {
                 String USERNAME = KEYDATA[0];
                 String PASSWORD = KEYDATA[1];
-                pd.put("USER_NAME", USERNAME);
+                pd.put("USERNAME", USERNAME);
                 if (Tools.notEmpty(sessionCode)
                         && sessionCode.equalsIgnoreCase(code)) {
                     // String passwd = new SimpleHash("SHA-1", USERNAME,
                     // PASSWORD).toString(); //密码加密
-                    String passwd = MD5.md5(PASSWORD);
-                    pd.put("PASSWORD", passwd);
-//					pd = mUserService.getMUserByNameAndPwd(pd);
+//                    String passwd = MD5.md5(PASSWORD);
+                    pd.put("PASSWORD", PASSWORD);
+					pd = userService.getUserByPwd(pd);
                     if (pd != null) {
                         errInfo = "success";
                         session.setAttribute(Const.SESSION_USER, pd);
@@ -115,7 +115,7 @@ public class LoginController extends BaseController {
 
         } else {
             errInfo = "error";    //缺少参数
-        }*/
+        }
         errInfo = "success";
         map.put("result", errInfo);
         return AppUtil.returnObject(new PageData(), map);
