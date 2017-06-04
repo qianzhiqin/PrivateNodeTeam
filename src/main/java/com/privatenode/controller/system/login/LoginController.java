@@ -274,7 +274,7 @@ public class LoginController extends BaseController {
      */
     @RequestMapping(value = "/login_default")
     public String defaultPage() {
-        return "system/admin/default";
+        return "system/device/device_list";
     }
 
     /**

@@ -53,8 +53,8 @@ $( function() {
 	tab.add( {
 		id :'tab1_index1',
 		title :"主页",
-		url :"<%=basePath%>login_default.do",
-		isClosed :false
+		url :"index.html",
+//		isClosed :false
 	});
 	/**tab.add( {
 		id :'tab1_index1',

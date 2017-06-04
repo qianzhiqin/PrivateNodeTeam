@@ -16,6 +16,7 @@
 	<!--<mvc:resources mapping="/admin/**" location="/admin/" />-->
 	<mvc:resources mapping="/static/**" location="/static/" />
 	<mvc:resources mapping="/plugins/**" location="/plugins/" />
+	<mvc:resources mapping="/assets/**" location="/assets/" />
 	<!--<mvc:resources mapping="/uploadFiles/**" location="/uploadFiles/" />-->
 
 	<!-- 访问拦截  -->

@@ -52,7 +52,20 @@
             }
         %>  --%>
         <li class="active">
-            <a onclick="siMenu('z7','lm6','库存管理','device/listAll')"
+            <a href="index.html"
+               target="mainFrame" onmouseover="this.style.backgroundColor='#7EBAE0'"
+               onmouseout="this.style.backgroundColor='#DBEAF9'"
+               style="background: #DBEAF9">
+                <i class="icon-dashboard"></i>
+				<span
+                        onmouseover="this.style.backgroundColor='#7EBAE0'"
+                        onmouseout="this.style.backgroundColor='#DBEAF9'"> Coin展示
+					</span>
+                <b class="arrow icon-angle-down"></b>
+            </a>
+        </li>
+        <li class="active">
+            <a href="device/listAll"
                target="mainFrame" onmouseover="this.style.backgroundColor='#7EBAE0'"
                onmouseout="this.style.backgroundColor='#DBEAF9'"
                style="background: #DBEAF9">

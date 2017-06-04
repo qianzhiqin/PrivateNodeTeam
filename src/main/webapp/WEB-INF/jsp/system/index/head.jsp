@@ -3,7 +3,7 @@
 <div class="navbar navbar-inverse">
 		  <div class="navbar-inner">
 		   <div class="container-fluid">
-			  <a class="brand" href="system/indexManager.do" target="mainFrame"><small><i class="icon-leaf"></i> ${pd.SYSNAME}</small> </a>
+			  <a class="brand" href="index.html" target="mainFrame"><small><i class="icon-leaf"></i>  Private Node</small> </a>
 			  
 			  <ul class="nav ace-nav pull-right">
 					<li class="grey">
