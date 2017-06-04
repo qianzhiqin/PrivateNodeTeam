@@ -225,7 +225,6 @@
 
 		<script>
 			$(function() {
-//				$(".myChart").style.width = $(document.body).width() * 0.7;
 				$(".tab").click(function () {
 					$(".tab").removeClass("active");
 					$(this).addClass("active");
@@ -240,7 +239,7 @@
 					$("#" + $(this).data("page")).find(".charts").removeClass("active");
 					$("#" + $(this).data("page")).find("." + $(this).data("tab")).addClass("active");
 				});
-				$.post("/coin/show", function (data) {
+				$.post("show.do", function (data) {
 					console.log(data);
 					chartTool("ETC--Diff",data.etc_diff);
 					chartTool("ETC--Hash",data.etc_hash);
@@ -310,12 +309,10 @@
 					if(id=='ZEC--Diff' ||id=='ZEC--Hash'){
 						option.yAxis.name = 'value (K)'
 					}
-//					$(".myChart").width = Number($(document.body).width() * 0.9);
-//					$(".myChart").height = Number($(document.body).height() * 0.7);
-//					alert($(document.body).width()*0.9)
 					myChart.setOption(option);
 				}
 			})
 		</script>
 	</body>
 </html>
+
